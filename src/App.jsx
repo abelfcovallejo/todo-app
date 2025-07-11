@@ -20,6 +20,28 @@ function App() {
   // selectedTab will be used to know which tab are we now.
   const [selectedTab, setSelectedTab] = useState('Open');
 
+  const [todoToEdit, setTodoToEdit] = useState(null);
+
+  //Select the todo to be edited based on the index clicked
+  function handleEditTodo(index) {
+    const todo = todos[index];
+    console.log("index to edit:" + index);
+    console.log("Todo input:" + todo.input);
+    setTodoToEdit({ ...todo, index });
+  }
+
+  function handleUpdateTodo(updatedTodo) {
+    const updatedList = [...todos];
+    updatedList[updatedTodo.index] = {
+      input: updatedTodo.input,
+      complete: updatedTodo.complete,
+    };
+    setTodos(updatedList);
+    setTodoToEdit(null); // Limpiar
+    handleSaveData(updatedList);
+  }
+
+
   function hadndleAddTodo (newTodo){
 
     // Creates a new list by passing the todos and adding the new todo
@@ -79,8 +101,8 @@ function App() {
     <>
       <Header todos={todos}/>
       <Tabs  todos={todos} selectedTab={selectedTab} setSelectedTab={setSelectedTab}/>
-      <TodoList hadndeDeleteTodo={hadndeDeleteTodo} hadndleCompleteTodo={hadndleCompleteTodo} todos={todos} selectedTab={selectedTab}/>
-      <TodoInput hadndleAddTodo= {hadndleAddTodo}/>
+      <TodoList hadndeDeleteTodo={hadndeDeleteTodo} hadndleCompleteTodo={hadndleCompleteTodo} todos={todos} selectedTab={selectedTab} handleEditTodo={handleEditTodo}/>
+      <TodoInput hadndleAddTodo= {hadndleAddTodo}  handleUpdateTodo={handleUpdateTodo} todoToEdit={todoToEdit} />
     </>
   )
 }

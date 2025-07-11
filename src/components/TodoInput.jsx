@@ -1,11 +1,23 @@
-import { useState } from "react";
+import { useState,useEffect  } from "react";
 
 export function TodoInput (props) {
     
-    const {hadndleAddTodo} = props;
+    const {hadndleAddTodo,todoToEdit} = props;
     const [inputValue, setInputValue] = useState('');
-    //console.log(inputValue);
 
+    useEffect(() => {
+        if (todoToEdit) {
+            setInputValue(todoToEdit.input);
+        }
+    }, [todoToEdit]);
+    
+    if (todoToEdit) {
+        console.log('todoToEdit:' + todoToEdit.input);
+    }
+    else {
+        console.log('todoToEdit is not valid');
+    }
+    
     // The input logic makes the input to add the value into inputValue and the on change invokes the setInputValue to update the inputValue
 
     // The logic of the button verifies if the inputValue has a value, if not, returns, if it does then calls the handleAddTodo
